@@ -1,0 +1,50 @@
+env:
+   global:
+     - CONAN_USERNAME: "nshutchinson"
+     - CONAN_LOGIN_USERNAME: "nshutchinson"
+     - CONAN_CHANNEL: "testing"
+     - CONAN_UPLOAD: "https://api.bintray.com/conan/nshutchinson/conan"
+     - CONAN_ARCHS: "x86_64"
+     
+linux: &linux
+   os: linux
+   sudo: required
+   language: python
+   python: "2.7"
+   services:
+     - docker
+osx: &osx
+   os: osx
+   language: generic
+matrix:
+   include:
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=lasote/conangcc5
+
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=lasote/conangcc6
+
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc7
+
+      - <<: *linux
+        env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=lasote/conanclang50
+
+      - <<: *linux
+        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=lasote/conanclang60
+
+      - <<: *osx
+        osx_image: xcode9.2
+        env: CONAN_APPLE_CLANG_VERSIONS=9.0
+
+      - <<: *osx
+        osx_image: xcode9.3
+        env: CONAN_APPLE_CLANG_VERSIONS=9.1
+
+install:
+  - chmod +x .ci/travis/install.sh
+  - ./.ci/travis/install.sh
+
+script:
+  - chmod +x .ci/travis/run.sh
+  - ./.ci/travis/run.sh
