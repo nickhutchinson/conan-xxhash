@@ -14,8 +14,8 @@ class XxhashConan(ConanFile):
     repo_url = "https://github.com/Cyan4973/xxHash"
 
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False]}
-    default_options = "shared=False"
+    options = {"shared": [True, False], "fPIC": [True, False]}
+    default_options = "shared=False", "fPIC=True"
     generators = "cmake"
     no_copy_sources = True
 
